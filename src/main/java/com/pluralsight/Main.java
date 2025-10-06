@@ -137,9 +137,27 @@ public class Main {
 
     private static void findVehiclesByColor(Scanner scanner){
 
+        scanner.nextLine();
         System.out.print("Enter Color to search: ");
         String searchColor = scanner.nextLine();
         System.out.println("\n ----- SEARCH RESULTS -----");
+
+        boolean found = false;
+
+        for (int i =0; i < vehicleCount; i++) {
+            if(inventory[i].getColor().equalsIgnoreCase(searchColor)){
+                System.out.println("ID: " + inventory[i].getVehicleId() // if found a matched vehicle print out all its info.
+                        + ", Make/Model: " + inventory[i].getMakeModel()
+                        + ", Color: " + inventory[i].getColor()
+                        + ", Odometer: " + inventory[i].getOdometerReading()
+                        + ", Price: $" + inventory[i].getPrice());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Sorry, no vehicles found.");
+        }
+        System.out.println("-----------------------------\n");
     }
 
 
