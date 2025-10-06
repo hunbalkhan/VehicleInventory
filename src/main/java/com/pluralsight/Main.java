@@ -7,18 +7,21 @@ public class Main {
     private static Vehicle[] inventory = new Vehicle[20];
     private static int vehicleCount = 0; // Move this here
 
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
 
         inventory[0] = new Vehicle(101121, "Ford Explorer", "Red", 45000, 13500);
         inventory[1] = new Vehicle(101122, "Toyota camry", "Blue", 60000, 11000);
-        inventory[2] = new Vehicle(101123,"Chevrolet Malibu","Black",50000,9700);
-        inventory[3] = new Vehicle(101124,"Honda Civic","White",70000,7500);
-        inventory[4] = new Vehicle(101125,"Subaru Outback","Green",55000,14500);
-        inventory[5] = new Vehicle(101126,"Jeep Wrangler","Yellow",30000,16000);
+        inventory[2] = new Vehicle(101123, "Chevrolet Malibu","Black",50000,9700);
+        inventory[3] = new Vehicle(101124, "Honda Civic","White",70000,7500);
+        inventory[4] = new Vehicle(101125, "Subaru Outback","Green",55000,14500);
+        inventory[5] = new Vehicle(101126, "Jeep Wrangler","Yellow",30000,16000);
+        inventory[6] = new Vehicle(101126, "BMW M8 Competition","Black",5000,110000);
+        inventory[7] = new Vehicle(101126, "Tesla Model S Plaid","Pearl White",1000,99000);
 
-        vehicleCount = 6;
+        vehicleCount = 8;
 
 
         int command;
@@ -39,13 +42,13 @@ public class Main {
                     listAllVehicles();
                     break; // this stops the code and exit's the switch that the computer is in at the moment. if there was no case then th next case would also run and so on until all of the cases are done running.
                 case 2:
-                    findVehicleByMakeModel(scanner);
+                    findVehiclesByMakeModel(scanner);
                     break;
                 case 3:
                     findVehiclesByPriceRange(scanner);
                     break;
                 case 4:
-                    //findVehicleByPriceRange(scanner);
+                    findVehiclesByColor(scanner);
                     break;
                 case 5:
                     addAVehicle(scanner);
@@ -54,8 +57,8 @@ public class Main {
                     System.out.println("\n ----- You have exited the Vehicle Inventory applocation -----");
                     return; // this exits the loop and ends it
             }
-
         } while (true); // loop continues until case 6 is chosen to exit the code.
+
     }
 
 
@@ -72,13 +75,12 @@ public class Main {
         }
         System.out.println("-----------------------------\n");
 
-
     }
 
 
-    private static void findVehicleByMakeModel(Scanner scanner){
+    private static void findVehiclesByMakeModel(Scanner scanner){
         scanner.nextLine();
-        System.out.print("Enter make/model to search: ");
+        System.out.print("Enter Make/Model to search: ");
         String searchMakeModel = scanner.nextLine(); // whatever user types, put it in the box called searchMakeModel
 
         System.out.println("\n ----- SEARCH RESULTS -----");
@@ -87,7 +89,7 @@ public class Main {
 
         for (int i =0; i < vehicleCount; i++) {
 
-            if (inventory[i].getMakeModel().equalsIgnoreCase(searchMakeModel)) { // check inventory 1by1 from 0, if make model entered matches, and to ignore user inputs caps locks
+            if (inventory[i].getMakeModel().toLowerCase().contains(searchMakeModel)) { // check inventory 1by1 from 0, if make model entered matches, and to ignore user inputs caps locks
                 System.out.println("ID: " + inventory[i].getVehicleId() // if found a matched vehicle print out all its info.
                         + ", Make/Model: " + inventory[i].getMakeModel()
                         + ", Color: " + inventory[i].getColor()
@@ -102,12 +104,43 @@ public class Main {
         System.out.println("-----------------------------\n");
     }
 
+
     private static void findVehiclesByPriceRange(Scanner scanner){
+        scanner.nextLine();
 
+        System.out.print("Please enter below the Minimum and maximum price range.\n");
+        System.out.print("Enter minimum price: ");
+        float minPrice = scanner.nextFloat();
 
+        System.out.print("Enter maximum price: ");
+        float maxPrice = scanner.nextFloat();
 
+        System.out.println("\n ----- SEARCH RESULTS -----");
+
+        boolean found = false;
+        for(int i = 0; i < vehicleCount; i++){
+            if(inventory[i].getPrice() >= minPrice && inventory[i].getPrice() <= maxPrice) {
+                System.out.println("ID: " + inventory[i].getVehicleId() // if found a matched vehicle print out all its info.
+                        + ", Make/Model: " + inventory[i].getMakeModel()
+                        + ", Color: " + inventory[i].getColor()
+                        + ", Odometer: " + inventory[i].getOdometerReading()
+                        + ", Price: $" + inventory[i].getPrice());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Sorry, no vehicles found in that price range.");
+        }
+        System.out.println("-----------------------------\n");
     }
 
+
+    private static void findVehiclesByColor(Scanner scanner){
+
+        System.out.print("Enter Color to search: ");
+        String searchColor = scanner.nextLine();
+        System.out.println("\n ----- SEARCH RESULTS -----");
+    }
 
 
     private static void addAVehicle(Scanner scanner){
